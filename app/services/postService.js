@@ -7,8 +7,8 @@ const Op = Sequelize.Op;
 // make a join table
 Posts.belongsTo(Users, { foreignKey: 'iduser' });
 Users.hasMany(Posts, { foreignKey: 'iduser' });
-Comments.belongsTo(Posts, { foreignKey: 'id' });
-Posts.hasMany(Comments, { foreignKey: 'id' });
+Comments.belongsTo(Posts, { foreignKey: 'idpost' });
+Posts.hasMany(Comments, { foreignKey: 'idpost' });
 
 const selectPosts = async (search) => {
     let searching = (search === undefined) ? '' : search;
@@ -26,7 +26,7 @@ const selectPosts = async (search) => {
             },{
                 model: Comments,
                 required: false,
-                attributes: ['comment']
+                attributes: ['comment', 'id']
             }]
         });
     if(data.length <= 0) return {msg: 'Any post has been realized!'}
@@ -47,7 +47,6 @@ const selectPost = async (id) => {
                 attributes: ['comment']
             }]
         });
-        console.log(post)
     if(!post) return 'No post found';
     return post;
 } 
