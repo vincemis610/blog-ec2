@@ -36,8 +36,6 @@ const registerUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    if(!email || !password) return res.status(401).json({msg: 'Email and password are required!'})
     try {
         const response = await loginUserService(req.body)
         return res.status(200).json(response);

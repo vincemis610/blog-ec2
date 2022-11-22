@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { generateToken } = require('../helpers/auth');
 
 const registerUserService = async (data) => {
-    if(!data.name || !data.email || !data.password){return res.status(200).json({msg: 'Some parameters are missing!'})}
+    if(!data.name || !data.email || !data.password){return {msg: 'Some parameters are missing!'}}
     data.password = bcrypt.hashSync(data.password, 10) 
     const user = await User.create(data)
     const response = await generateToken(user);
@@ -11,7 +11,7 @@ const registerUserService = async (data) => {
 }
 const loginUserService = async (data) => {
     const { email, password } = data;
-    if(!email || !password) return res.status(401).json({msg: 'Email and password are required!'});
+    if(!email || !password) return {msg: 'Email and password are required!'};
     const user = await User.findOne({ where: { email }});
     if(!user) return res.status(401).json({msg: 'User or password incorrect!'});
     const {dataValues} = user;
